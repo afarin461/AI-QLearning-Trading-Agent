@@ -16,7 +16,7 @@ This was developed as an **AI course project** at K. N. Toosi University of Tech
 
 ## 💡 Core RL Components & Implementation
 
-The project utilizes **Tabular Q-Learning** on a carefully engineered **discretized state space**.
+The project utilizes **Tabular Q-Learning** on a carefully engineered **discretized state space** to make daily trading decisions.
 
 ### The Agent's Decision Cycle
 
@@ -30,15 +30,13 @@ The agent operates daily, choosing one of three discrete actions:
 
 ### State Space Engineering (Discretization)
 
-Since Tabular Q-Learning requires a finite state space, three key financial indicators were **discretized** into categorical bins to define the state:
+Since Tabular Q-Learning requires a finite state space, three key financial indicators were **discretized** into categorical bins to define the state. The agent's state is a tuple of these three categories, e.g., `('Up', 'Neutral', 'Medium')`.
 
-| Feature | Source File | Categories (Example Bins) |
+| Feature | Source File | Categories (Bins) |
 | :--- | :--- | :--- |
-| **Returns** | `data_preparation.py` | Down, Flat, Up |
+| **Returns** | `data_preparation.py` | Down ($<$-0.5%), Flat ($\pm$0.5%), Up ($>$$0.5\%$) |
 | **RSI (Relative Strength Index)** | `data_preparation.py` | Oversold (0-30), Neutral (30-70), Overbought (70-100) |
-| **Volume** | `data_preparation.py` | Low, Medium, High (based on quantiles) |
-
-**The Agent's State** is a tuple of these three categories, e.g., `('Up', 'Neutral', 'Medium')`.
+| **Volume** | `data_preparation.py` | Low, Medium, High (based on data quantiles) |
 
 ---
 
@@ -46,7 +44,7 @@ Since Tabular Q-Learning requires a finite state space, three key financial indi
 
 ### Prerequisites
 
-The project requires Python 3.x and the following libraries:
+The project requires **Python 3.x** and the following libraries:
 
 ```bash
 pip install pandas numpy yfinance ta matplotlib
