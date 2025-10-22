@@ -48,6 +48,7 @@ The project requires **Python 3.x** and the following libraries:
 
 ```bash
 pip install pandas numpy yfinance ta matplotlib
+```
 
 ### Execution
 
