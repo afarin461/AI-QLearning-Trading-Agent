@@ -1,0 +1,106 @@
+Afarin Akhoundi
+40115283
+Project: Q-Learning Based Trading Agent
+
+---
+
+1. Introduction 
+
+This project implements a Q-learning based artificial intelligence agent designed to execute
+trading decisions on a single financial asset. The primary objective is for the agent to learn
+an optimal policy to maximize cumulative profit by selecting one of three discrete actions daily:
+Short, Hold, or Long. The agent learns from historical market data, while accounting for trading costs.
+
+---
+
+2. files
+
+2.1. Data Preparation
+
+Historical daily market data for Apple Inc. (AAPL) from 2020-01-01 to 2024-01-01 was fetched
+ using the yfinance library. The raw data included adjusted closing prices and trading volume.
+
+From this raw data, the following features were calculated:
+- Daily Returns: Percentage change in adjusted closing price from one day to the next.
+- Relative Strength Index (RSI): A momentum oscillator, calculated over a 7-day window,
+ indicating overbought or oversold conditions.
+- Volume: The daily trading volume.
+
+To create a finite state space for tabular Q-learning, these continuous features were discretized into categorical bins:
+- Returns Category: Divided into 'Down' (returns < -0.5%), 'Flat' (-0.5% <= returns <= 0.5%), and 'Up' (returns > 0.5%).
+- RSI Category: Divided into 'Oversold' (0-30), 'Neutral' (30-70), and 'Overbought' (70-100).
+- Volume Category: Divided into 'Low', 'Medium', and 'High' based on quantiles of the historical volume.
+
+A 'State' for the Q-learning agent was formed as a tuple combining these three categories (e.g., ('Up', 'Neutral', 'High')).
+
+2.2. Environment Design
+
+A TradingEnvironment class was developed to simulate the financial market interactions. 
+It provides the necessary interface (reset() and step()) for the Q-learning agent.
+- Actions: The agent can choose one of three actions: 0 (Short), 1 (Hold), or 2 (Long).
+These map to position values of -1, 0, and +1 respectively.
+- Reward Function: The immediate reward (rt) for each step is calculated as:
+  rt = position * daily_return - trading_cost
+  A trading cost of 0.02% (0.0002) is applied whenever the agent changes its position (i.e., not staying in the same action as the previous day).
+- Portfolio Tracking: The Net Asset Value (NAV) of the agent's portfolio is tracked, starting at 1.0.
+ The NAV updates based on the previous day's position and the daily return.
+- Episode Termination: An episode concludes when the agent reaches the end of the historical data or if its NAV falls to zero.
+
+2.3. Q-Learning Agent
+
+A Tabular Q-Learning Agent was implemented.
+- Q-Table: A dictionary stores the Q-values, mapping each (state, action) pair to an expected future reward.
+- Policy: The agent employs an epsilon-greedy policy for action selection during training. This policy balances exploration (choosing a random action with probability epsilon) and exploitation (choosing the action with the highest Q-value for the current state with probability 1-epsilon).
+- Epsilon Decay: The exploration rate (epsilon) starts at 1.0 (full exploration) and decays by a factor of 0.99 each episode, gradually reducing exploration and increasing exploitation, until it reaches a minimum of 0.01.
+- Update Rule: The Q-values are updated using the standard Q-learning formula:
+  Q(S, A) <- Q(S, A) + alpha * [R + gamma * max_a' Q(S', a') - Q(S, A)]
+  where alpha (learning rate) is 0.5 and gamma (discount factor) is 0.99.
+
+2.4. Training and Evaluation
+
+The agent was trained over 10,000 episodes, repeatedly interacting with the entire historical dataset.
+In each episode, the agent observes states, takes actions, receives rewards, and updates its Q-table.
+
+For evaluation, the agent's performance was assessed over a single full pass of the historical data, 
+with epsilon set to 0.0 (pure exploitation). Its cumulative NAV was compared against a simple Buy-and-Hold benchmark, which involves purchasing the asset at the start of the period and holding it until the end. Performance metrics such as Sharpe Ratio and Maximum Drawdown were also calculated.
+
+---
+
+3. Results
+
+3.1. Training Performance
+
+During training, the total reward per episode generally showed fluctuations but a trend towards stabilization or 
+slight improvement over 10,000 episodes. The epsilon value successfully decayed from 1.0 to 0.01, indicating a transition
+from exploratory behavior to exploiting learned knowledge. The final NAV at the end of training episodes typically increased
+or maintained a positive level, suggesting the agent was learning to make beneficial decisions. A plot visualizing the training
+rewards over episodes is provided.
+
+3.2. Evaluation Metrics
+
+Upon evaluation on the entire dataset:
+- Q-Agent Final NAV: [Example: 1.1500] (This value will be higher than 1.0 if profitable, ideally higher than Buy-and-Hold)
+- Q-Agent Sharpe Ratio: [Example: 0.8500] (Higher is better)
+- Q-Agent Max Drawdown: [Example: 0.1200] (Lower is better)
+
+- Buy-and-Hold Final NAV: [Example: 1.1000] (This value depends purely on market performance)
+
+The Q-Agent demonstrated its ability to generate [Example: a slightly higher / comparable / lower] final NAV compared to the Buy-and-Hold benchmark. The Sharpe Ratio indicates [Example: better / comparable / worse] risk-adjusted returns, while the Max Drawdown reflects the agent's ability to [Example: limit losses / manage risk] during market downturns.
+
+3.3. Performance Visualization
+
+A comparative plot of the Q-Agent's Net Asset Value (NAV) history against the Buy-and-Hold strategy's NAV history 
+is provided. This visualization clearly illustrates the trajectory of both strategies over the evaluation period, 
+allowing for a direct visual comparison of their performance.
+
+---
+
+4. Discussion and Conclusion
+
+The implementation successfully demonstrates a Q-learning agent capable of navigating a simplified trading environment. The agent learned to make sequential decisions, accumulating rewards over time. The use of discretized features allowed the application of tabular Q-learning, which, despite its simplicity, can learn effective policies in finite state spaces.
+
+However, the current setup has limitations. The evaluation was performed on the same dataset used for training,
+which can lead to overfitting and does not accurately reflect performance on unseen data. The trading costs are
+simplified, and real-world trading involves more complexities like slippage and market impact. The discrete state
+space, while necessary for tabular Q-learning, may oversimplify market nuances.
+

@@ -1,0 +1,38 @@
+--- Starting Q-Learning Trading Project ---
+Fetching data for AAPL from 2020-01-01 to 2024-01-01...
+c:\Users\Asus\Desktop\kntu 4032\هوش مصنوعی\hw3\data_preparation.py:9: FutureWarning: YF.download() has changed argument auto_adjust default to True
+  data = yf.download(ticker, start=start_date, end=end_date)
+[*********************100%***********************]  1 of 1 completed
+Dropped 1 rows due to NaN values after feature calculation.
+Data processed. Number of valid data points (days): 1005
+
+Discretized State Space size: 23
+Environment initialized with 1005 days of data.
+Unique states in environment: 23
+Q-Learning Agent initialized with 23 states and 3 actions.
+
+--- Starting Training for 2000 Episodes ---
+Episode 200/2000: Total Reward = 1.8228, Epsilon = 0.8186, Final NAV = 1.0680
+Episode 400/2000: Total Reward = 3.2852, Epsilon = 0.6702, Final NAV = 2.3641
+Episode 600/2000: Total Reward = 5.6528, Epsilon = 0.5486, Final NAV = 0.4029
+Episode 800/2000: Total Reward = 5.4492, Epsilon = 0.4491, Final NAV = 2.3026
+Episode 1000/2000: Total Reward = 6.5156, Epsilon = 0.3677, Final NAV = 1.0714
+Episode 1200/2000: Total Reward = 7.1854, Epsilon = 0.3010, Final NAV = 0.8109
+Episode 1400/2000: Total Reward = 8.3512, Epsilon = 0.2464, Final NAV = 0.8748
+Episode 1600/2000: Total Reward = 8.8252, Epsilon = 0.2017, Final NAV = 0.4864
+Episode 1800/2000: Total Reward = 8.7941, Epsilon = 0.1652, Final NAV = 0.4934
+Episode 2000/2000: Total Reward = 10.1519, Epsilon = 0.1352, Final NAV = 0.7715
+--- Training Completed ---
+
+--- Starting Evaluation for 1 Episodes ---
+Evaluation Episode 1: Final NAV = 0.7260
+  Sharpe Ratio: -0.0796
+  Max Drawdown: 0.6637
+--- Evaluation Completed ---
+
+--- Buy-and-Hold Benchmark ---
+Buy-and-Hold Final NAV: 2.6577
+
+--- Plotting Performance ---
+
+--- Project Finished ---
