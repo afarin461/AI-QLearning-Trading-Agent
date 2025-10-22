@@ -1,6 +1,3 @@
-
-
-````markdown
 # 🤖 Q-Learning Based Algorithmic Trading Agent
 
 [![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)](https://www.python.org/)
@@ -51,11 +48,10 @@ The project requires **Python 3.x** and the following libraries:
 
 ```bash
 pip install pandas numpy yfinance ta matplotlib
-````
 
 ### Execution
 
-The `main.py` file handles data fetching, processing, agent training (2000 episodes), and final evaluation.
+The `main.py` file handles data fetching, processing, agent training, and final evaluation.
 
 1.  Clone the repository:
     ```bash
@@ -66,56 +62,19 @@ The `main.py` file handles data fetching, processing, agent training (2000 episo
     ```bash
     python main.py
     ```
-
 ### Project File Structure
 
 | File | Description |
 | :--- | :--- |
-| **`main.py`** | Main entry point. Orchestrates training, evaluation, and plotting. |
-| **`agent.py`** | Implements the **`QLearningAgent`** class, including Q-table and $\epsilon$-greedy policy. |
-| **`environment.py`** | Implements the **`TradingEnvironment`** class, handling rewards, NAV, and trading costs. |
-| **`data_preparation.py`** | Fetches data (AAPL), calculates indicators (RSI), and performs **state discretization**. |
-| **`analysis.py`** | Contains functions for financial metrics: **Sharpe Ratio** and **Max Drawdown**. |
+| **`main.py`** | Main entry point. Defines hyperparameters, orchestrates training, and runs evaluation. |
+| **`agent.py`** | Implements the **`QLearningAgent`** class, including Q-table management and $\epsilon$-greedy action selection. |
+| **`environment.py`** | Implements the **`TradingEnvironment`** class, handling rewards calculation, NAV updates, and trading costs. |
+| **`data_preparation.py`** | Responsible for fetching historical data (AAPL), calculating technical indicators, and **state discretization**. |
+| **`analysis.py`** | Contains utility functions for financial metrics: **Sharpe Ratio** calculation, **Max Drawdown**, and plotting. |
 | **`report.txt`** | The comprehensive academic report for the course submission. |
+| **`console_output.txt`** | The training and evaluation results printed to the console. |
+| **`training_rewards_plot.png`** | Output plot showing reward convergence over episodes. |
+| **`performance_comparison_plot.png`** | Output plot comparing agent NAV vs. Buy-and-Hold benchmark. |
 
------
 
-## 📈 Results and Analysis
-
-The project evaluates the trained Q-Agent against a naive **Buy-and-Hold** strategy over the same time period (2020-01-01 to 2024-01-01).
-
-### Training Convergence
-
-The `training_rewards_plot.png` demonstrates the agent's learning stability over 2000 episodes:
-
-### Evaluation Metrics
-
-The final evaluation provides key performance indicators (Values extracted from `console_output.txt`):
-
-| Metric | Q-Agent (Evaluation) | Buy-and-Hold Benchmark |
-| :--- | :--- | :--- |
-| **Final NAV** | **3.6190** | **2.2858** |
-| **Sharpe Ratio** | **1.2173** | **0.8710** |
-| **Max Drawdown** | **0.4285** | N/A |
-
-### NAV Trajectory Comparison
-
-The final plot compares the Net Asset Value (NAV) growth of the Q-Agent against the benchmark:
-
------
-
-## ⚙️ Configuration Parameters
-
-The key hyperparameters defined in `main.py` used for training are:
-
-| Parameter | Value | Description |
-| :--- | :--- | :--- |
-| `ALPHA` ($\alpha$) | $0.5$ | Learning Rate for Q-Learning. |
-| `GAMMA` ($\gamma$) | $0.99$ | Discount Factor. |
-| `EPSILON` ($\epsilon$) | $1.0$ | Initial exploration rate. |
-| `EPSILON_DECAY` | $0.999$ | Decay rate per episode. |
-| `NUM_TRAINING_EPISODES` | $2000$ | Total number of training runs. |
-| `TRADING_COST` | $0.0005$ | Transaction cost per trade (0.05%). |
-
-```
-```
+    
