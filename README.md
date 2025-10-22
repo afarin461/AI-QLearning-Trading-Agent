@@ -77,5 +77,19 @@ The `main.py` file handles data fetching, processing, agent training, and final 
 | **`training_rewards_plot.png`** | Output plot showing reward convergence over episodes. |
 | **`performance_comparison_plot.png`** | Output plot comparing agent NAV vs. Buy-and-Hold benchmark. |
 
+### 📊 Output and Results
+
+The project generates two types of output that are essential for evaluation:
+
+1.  **Console Output (`console_output.txt`):**
+    * During the execution of `python main.py`, all training progress (Total Reward, Epsilon Decay, Final NAV per episode) and the final evaluation metrics (**Sharpe Ratio** and **Max Drawdown**) are saved to the file **`console_output.txt`**.
+    * This file provides the *numeric* comparison data.
+
+2.  **Visualizations (`.png` files):**
+    * The script generates two graphical files in the root directory after execution:
+        * **`training_rewards_plot.png`**: Shows the learning curve (convergence of rewards).
+        * **`performance_comparison_plot.png`**: Visually compares the Q-Agent's NAV growth against the Buy-and-Hold benchmark.
+
+
 
     
